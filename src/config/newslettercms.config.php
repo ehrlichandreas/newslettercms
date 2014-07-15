@@ -52,10 +52,30 @@ $config = array
             'route'     => 'nl\/(\\d+)\/(.*)|nl',
             'defaults'  => array
             (
-                'module'        => 'mainmodule',
-                'submodule'     => 'default',
-                'controller'    => 'article',
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'index',
                 'action'        => 'newsletter',
+                'newsletter_id' => '-1',
+                'title'         => '',
+            ),
+            'map'       => array
+            (
+                'newsletter_id' => '1',
+                'title'         => '2',
+            ),
+            'reverse'   => 'nl/%1$s/%2$s',
+            'callbacks' => array(),
+        ),
+        'newsletter-navigation'    => array
+        (
+            'route'     => 'nl\/navigation',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'index',
+                'action'        => 'navigation',
                 'newsletter_id' => '-1',
                 'title'         => '',
             ),
