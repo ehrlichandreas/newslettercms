@@ -26,6 +26,14 @@ require_once dirname(__FILE__) . '/controllers/include.php';
 
 $config = include dirname(__FILE__) . '/config/newslettercms.config.php';
 
+EhrlichAndreas_Mvc_Registry::set('config', $config);
+
+#$dbConfig = $config['db']['default'];
+
+#$dbConnection = EhrlichAndreas_Db_Db::factory($dbConfig);
+
+#EhrlichAndreas_Mvc_Registry::set('dbconnection', $dbConnection);
+
 $mvc = EhrlichAndreas_Mvc_FrontController::getInstance();
 
 $mvc->addRouterConfig($config, 'router');

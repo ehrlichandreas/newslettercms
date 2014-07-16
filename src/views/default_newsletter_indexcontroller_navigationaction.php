@@ -2,7 +2,7 @@
     <h2><?php echo $this->escape('Navigation');?></h2>
     <div class="clr"></div>
     <ul>
-        <li><?php echo $this->escape('Projekte');?></li>
+        <li><a href="<?php echo $this->url(array(), 'newsletter-projectlist', true, true);?>"><?php echo $this->escape('Projekte');?></a></li>
         <li><?php echo $this->escape('Themen');?></li>
     </ul>
 </div>

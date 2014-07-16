@@ -7,19 +7,19 @@ $config = array
         'default'   => array
         (
             'driver'            => 'Pdo',
-            //'host'            => 'localhost',
-            //'port'            => '3306',
+            //'host'              => 'localhost',
+            //'port'              => '8889',
             //'dbname'          => 'newslettercms',
-            'dsn'               => 'mysql:dbname=newslettercms;host=localhost',
-            //'username'        => 'readCredential',
-            //'password'        => '****',
+            'dsn'               => 'mysql:dbname=tests;host=localhost;port=8889',
+            'username'          => 'root',
+            'password'           => 'root',
             'charset'           => 'utf8',
             'driver_options'    => array
             (
                 PDO::ATTR_EMULATE_PREPARES          => 1,
                 PDO::MYSQL_ATTR_USE_BUFFERED_QUERY  => 1,
-                //PDO::MYSQL_ATTR_INIT_COMMAND      => 'SET NAMES \'UTF8\';SET SQL_BIG_SELECTS = 1;SET SQL_MAX_JOIN_SIZE = 18446744073709551615;',
-                PDO::MYSQL_ATTR_INIT_COMMAND        => 'SET NAMES \'UTF8\';',
+                PDO::MYSQL_ATTR_INIT_COMMAND      => 'SET NAMES \'UTF8\';SET SQL_BIG_SELECTS = 1;SET SQL_MAX_JOIN_SIZE = 18446744073709551615;',
+                //PDO::MYSQL_ATTR_INIT_COMMAND        => 'SET NAMES \'UTF8\';',
             ),
             'dbtableprefix' => array
             (
@@ -85,6 +85,38 @@ $config = array
                 'title'         => '2',
             ),
             'reverse'   => 'nl/%1$s/%2$s',
+            'callbacks' => array(),
+        ),
+        'newsletter-projectlist'    => array
+        (
+            'route'     => 'nl\/project',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'index',
+                'action'        => 'projectlist',
+            ),
+            'map'       => array(),
+            'reverse'   => 'nl/project',
+            'callbacks' => array(),
+        ),
+        'newsletter-project'    => array
+        (
+            'route'     => 'nl\/project/(-?\\d+)',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'index',
+                'action'        => 'project',
+                'project_id'    => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+            ),
+            'reverse'   => 'nl/project/%1$s',
             'callbacks' => array(),
         ),
     ),
