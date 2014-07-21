@@ -9,7 +9,7 @@ foreach ($this->projectList as $project)
         'project_id'    => $project['project_id'],
     );
     
-    $url = $this->url($urlOptions, 'newsletter-project', true, true);
+    $url = $this->url($urlOptions, 'newsletter-project-view', true, true);
 ?>
         <li><a href="<?php echo $url;?>"><?php echo $this->escape($project['title']);?></a></li>
 <?php 
@@ -18,7 +18,7 @@ foreach ($this->projectList as $project)
     </ul>
     <div class="clr"></div>
     <p>neues Projekt anlegen</p>
-    <form method="post" action="<?php echo $this->url(array(), 'newsletter-project', true, true);?>" enctype="multipart/form-data">
+    <form method="post" action="<?php echo $this->url(array(), 'newsletter-project-add', true, true);?>" enctype="multipart/form-data">
         <p>
             <label for="name">Name:</label>
             <br />

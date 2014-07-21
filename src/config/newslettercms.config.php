@@ -87,29 +87,62 @@ $config = array
             'reverse'   => 'nl/%1$s/%2$s',
             'callbacks' => array(),
         ),
-        'newsletter-projectlist'    => array
+        'newsletter-project-add'    => array
+        (
+            'route'     => 'nl\/project\/add',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'project',
+                'action'        => 'add',
+                'project_id'    => '-1',
+            ),
+            'map'       => array(),
+            'reverse'   => 'nl/project/add',
+            'callbacks' => array(),
+        ),
+        'newsletter-project-edit'    => array
+        (
+            'route'     => 'nl\/project\/(-?\\d+)\/edit',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'project',
+                'action'        => 'edit',
+                'project_id'    => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+            ),
+            'reverse'   => 'nl/project/%1$s/edit',
+            'callbacks' => array(),
+        ),
+        'newsletter-project-list'    => array
         (
             'route'     => 'nl\/project',
             'defaults'  => array
             (
                 'module'        => 'default',
                 'submodule'     => 'newsletter',
-                'controller'    => 'index',
-                'action'        => 'projectlist',
+                'controller'    => 'project',
+                'action'        => 'list',
             ),
             'map'       => array(),
             'reverse'   => 'nl/project',
             'callbacks' => array(),
         ),
-        'newsletter-project'    => array
+        'newsletter-project-view'    => array
         (
-            'route'     => 'nl\/project/(-?\\d+)',
+            'route'     => 'nl\/project\/(-?\\d+)',
             'defaults'  => array
             (
                 'module'        => 'default',
                 'submodule'     => 'newsletter',
-                'controller'    => 'index',
-                'action'        => 'project',
+                'controller'    => 'project',
+                'action'        => 'view',
                 'project_id'    => '-1',
             ),
             'map'       => array

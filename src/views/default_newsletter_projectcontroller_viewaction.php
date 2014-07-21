@@ -1,6 +1,6 @@
-<div class="default newsletter index project">
+<div class="default newsletter project edit">
     <p>Projekt bearbeiten</p>
-    <form method="post" action="<?php echo $this->url(array('project_id'=>$this->project['project_id']), 'newsletter-project', true, true);?>" enctype="multipart/form-data">
+    <form method="post" action="<?php echo $this->url(array('project_id'=>$this->project['project_id']), 'newsletter-project-edit', true, true);?>" enctype="multipart/form-data">
         <p>
             <label for="name">Name:</label>
             <br />
