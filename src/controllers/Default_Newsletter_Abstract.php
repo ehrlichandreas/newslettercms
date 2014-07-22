@@ -2,8 +2,43 @@
 
 class Default_Newsletter_Abstract extends EhrlichAndreas_Mvc_Controller
 {
-    public function init()
+    
+    public function preDispatch()
     {
+        if (! isset($this->_view->invokeParams))
+        {
+            $invokeParams = $this->getRequestInvokeParams();
+
+            $this->_view->assign('invokeParams', $invokeParams);
+        }
+    }
+    
+    /**
+     * 
+     * @return array
+     */
+    public function getRequestInvokeParams()
+    {
+        #$invokeParams = EhrlichAndreas_Mvc_FrontController::getInstance()->getRouter()->getParams();
+        
+        $invokeParams = $this->getRequest()->getParams();
+        
+        unset($invokeParams['bootstrap']);
+        
+        unset($invokeParams['_optionsDb']);
+
+        unset($invokeParams['__NAMESPACE__']);
+
+        unset($invokeParams['__CONTROLLER__']);
+
+        unset($invokeParams['__ACTION__']);
+        
+		if (get_magic_quotes_gpc())
+        {
+			$invokeParams = json_decode(stripslashes(json_encode($invokeParams)), true);
+		}
+        
+        return $invokeParams;
     }
     
     /**

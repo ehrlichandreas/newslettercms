@@ -69,7 +69,7 @@ $config = array
         ),
         'newsletter-navigation'    => array
         (
-            'route'     => 'nl\/navigation',
+            'route'     => 'nl\/navigation\/?',
             'defaults'  => array
             (
                 'module'        => 'default',
@@ -87,9 +87,10 @@ $config = array
             'reverse'   => 'nl/%1$s/%2$s',
             'callbacks' => array(),
         ),
+        
         'newsletter-project-add'    => array
         (
-            'route'     => 'nl\/project\/add',
+            'route'     => 'nl\/project\/add\/?',
             'defaults'  => array
             (
                 'module'        => 'default',
@@ -104,7 +105,7 @@ $config = array
         ),
         'newsletter-project-edit'    => array
         (
-            'route'     => 'nl\/project\/(-?\\d+)\/edit',
+            'route'     => 'nl\/project\/(-?\\d+)\/edit\/?',
             'defaults'  => array
             (
                 'module'        => 'default',
@@ -122,7 +123,7 @@ $config = array
         ),
         'newsletter-project-list'    => array
         (
-            'route'     => 'nl\/project',
+            'route'     => 'nl\/project\/?',
             'defaults'  => array
             (
                 'module'        => 'default',
@@ -136,7 +137,7 @@ $config = array
         ),
         'newsletter-project-view'    => array
         (
-            'route'     => 'nl\/project\/(-?\\d+)',
+            'route'     => 'nl\/project\/(-?\\d+)\/?',
             'defaults'  => array
             (
                 'module'        => 'default',
@@ -150,6 +151,84 @@ $config = array
                 'project_id'    => '1',
             ),
             'reverse'   => 'nl/project/%1$s',
+            'callbacks' => array(),
+        ),
+        
+        'newsletter-topic-add'    => array
+        (
+            'route'     => 'nl\/project\/(-?\\d+)\/topic\/add\/?',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'topic',
+                'action'        => 'add',
+                'project_id'    => '-1',
+                'topic_id'      => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+            ),
+            'reverse'   => 'nl/project/%1$s/topic/add',
+            'callbacks' => array(),
+        ),
+        'newsletter-topic-edit'    => array
+        (
+            'route'     => 'nl\/project\/(-?\\d+)\/topic\/(-?\\d+)\/edit\/?',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'topic',
+                'action'        => 'edit',
+                'project_id'    => '-1',
+                'topic_id'      => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+                'topic_id'      => '2',
+            ),
+            'reverse'   => 'nl/project/%1$s/topic/%2$s/edit',
+            'callbacks' => array(),
+        ),
+        'newsletter-topic-list'    => array
+        (
+            'route'     => 'nl\/project\/(-?\\d+)\/topic\/?',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'topic',
+                'action'        => 'list',
+                'project_id'    => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+            ),
+            'reverse'   => 'nl/project/%1$s/topic',
+            'callbacks' => array(),
+        ),
+        'newsletter-topic-view'    => array
+        (
+            'route'     => 'nl\/project\/(-?\\d+)\/topic\/(-?\\d+)\/?',
+            'defaults'  => array
+            (
+                'module'        => 'default',
+                'submodule'     => 'newsletter',
+                'controller'    => 'topic',
+                'action'        => 'view',
+                'project_id'    => '-1',
+                'topic_id'      => '-1',
+            ),
+            'map'       => array
+            (
+                'project_id'    => '1',
+                'topic_id'      => '2',
+            ),
+            'reverse'   => 'nl/project/%1$s/topic/%2$s',
             'callbacks' => array(),
         ),
     ),

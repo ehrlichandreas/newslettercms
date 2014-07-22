@@ -1,6 +1,6 @@
 <?php
 
-class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
+class Default_Newsletter_TopicController extends Default_Newsletter_Abstract
 {
     
     public function indexAction()
@@ -22,7 +22,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
     {
         $invokeParams = $this->getRequestInvokeParams();
         
-        if (!empty($invokeParams['project_id']) && $invokeParams['project_id'] > 0)
+        if (!empty($invokeParams['topic_id']) && $invokeParams['topic_id'] > 0)
         {
             $scheme = $this->getRequest()->getScheme();
 
@@ -30,7 +30,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
 
             $urlOptions = $invokeParams;
 
-            $url = $this->_view->url($urlOptions, 'newsletter-project-edit', true, true);
+            $url = $this->_view->url($urlOptions, 'newsletter-topic-edit', true, true);
 
             header('Location: ' . $url = $scheme . '://' . $host . $url);
 
@@ -48,9 +48,18 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
                 'name'          => $invokeParams['name'],
                 'title'         => $invokeParams['title'],
                 'description'   => $invokeParams['description'],
+                'project_id'    => $invokeParams['project_id'],
             );
             
-            $project_id = $newsletterCms->addProject($param);
+            $topic_id = $newsletterCms->addTopic($param);
+            
+            $param = array
+            (
+                'project_id'    => $invokeParams['project_id'],
+                'topic_id'      => $topic_id,
+            );
+            
+            $newsletterCms->addTopicToProjectExt($param);
             
             $scheme = $this->getRequest()->getScheme();
             
@@ -58,10 +67,11 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
             
             $urlOptions = array
             (
-                'project_id'    => $project_id,
+                'project_id'    => $invokeParams['project_id'],
+                'topic_id'      => $topic_id,
             );
             
-            $url = $this->_view->url($urlOptions, 'newsletter-project-view', true, true);
+            $url = $this->_view->url($urlOptions, 'newsletter-topic-view', true, true);
             
             header('Location: ' . $url = $scheme . '://' . $host . $url);
             
@@ -72,9 +82,12 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
 
         $host = $this->getRequest()->getHttpHost();
 
-        $urlOptions = array();
+        $urlOptions = array
+        (
+            'project_id'    => $invokeParams['project_id'],
+        );
 
-        $url = $this->_view->url($urlOptions, 'newsletter-project-list', true, true);
+        $url = $this->_view->url($urlOptions, 'newsletter-topic-list', true, true);
 
         header('Location: ' . $url = $scheme . '://' . $host . $url);
 
@@ -85,7 +98,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
     {
         $invokeParams = $this->getRequestInvokeParams();
         
-        if (empty($invokeParams['project_id']) || $invokeParams['project_id'] < 0)
+        if (empty($invokeParams['topic_id']) || $invokeParams['topic_id'] < 0)
         {
             $scheme = $this->getRequest()->getScheme();
 
@@ -93,7 +106,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
 
             $urlOptions = $invokeParams;
 
-            $url = $this->_view->url($urlOptions, 'newsletter-project-add', true, true);
+            $url = $this->_view->url($urlOptions, 'newsletter-topic-add', true, true);
 
             header('Location: ' . $url = $scheme . '://' . $host . $url);
 
@@ -112,12 +125,11 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
                 'title'         => $invokeParams['title'],
                 'description'   => $invokeParams['description'],
                 'project_id'    => $invokeParams['project_id'],
+                'topic_id'      => $invokeParams['topic_id'],
             );
                 
-            $newsletterCms->editProject($param);
+            $newsletterCms->editTopic($param);
         }
-
-        $project_id = $invokeParams['project_id'];
 
         $scheme = $this->getRequest()->getScheme();
 
@@ -125,10 +137,11 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
 
         $urlOptions = array
         (
-            'project_id'    => $project_id,
+            'project_id'    => $invokeParams['project_id'],
+            'topic_id'      => $invokeParams['topic_id'],
         );
 
-        $url = $this->_view->url($urlOptions, 'newsletter-project-view', true, true);
+        $url = $this->_view->url($urlOptions, 'newsletter-topic-view', true, true);
 
         header('Location: ' . $url = $scheme . '://' . $host . $url);
 
@@ -137,13 +150,41 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
     
     public function listAction()
     {
+        $invokeParams = $this->getRequestInvokeParams();
+        
         $dbConnection = $this->getDbConnection();
         
         $newsletterCms = new EhrlichAndreas_NewsletterCms_ModuleExtended($dbConnection);
+            
+        $param = array
+        (
+            'project_id'    => $invokeParams['project_id'],
+        );
         
-        $projectRowset = $newsletterCms->getProjectList();
+        $topicToProjectRowset = $newsletterCms->getTopicToProjectList($param);
         
-        $this->_view->assign('projectRowset', $projectRowset);
+        if (empty($topicToProjectRowset))
+        {
+            $topicRowset = array();
+        }
+        else
+        {
+            $topic_id = array();
+            
+            foreach ($topicToProjectRowset as $topicToProject)
+            {
+                $topic_id[$topicToProject['topic_id']] = $topicToProject['topic_id'];
+            }
+            
+            $param = array
+            (
+                'topic_id'  => $topic_id,
+            );
+        
+            $topicRowset = $newsletterCms->getTopicList($param);
+        }
+        
+        $this->_view->assign('topicRowset', $topicRowset);
         
         return $this->_view->render(__METHOD__);
     }
@@ -152,7 +193,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
     {
         $invokeParams = $this->getRequestInvokeParams();
         
-        if (empty($invokeParams['project_id']) || $invokeParams['project_id'] < 0)
+        if (empty($invokeParams['topic_id']) || $invokeParams['topic_id'] < 0)
         {
             $scheme = $this->getRequest()->getScheme();
 
@@ -160,7 +201,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
 
             $urlOptions = $invokeParams;
 
-            $url = $this->_view->url($urlOptions, 'newsletter-project-list', true, true);
+            $url = $this->_view->url($urlOptions, 'newsletter-topic-list', true, true);
 
             header('Location: ' . $url = $scheme . '://' . $host . $url);
 
@@ -171,7 +212,7 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
         (
             'where' => array
             (
-                'project_id'    => $invokeParams['project_id'],
+                'topic_id'  => $invokeParams['topic_id'],
             ),
         );
         
@@ -179,9 +220,9 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
         
         $newsletterCms = new EhrlichAndreas_NewsletterCms_ModuleExtended($dbConnection);
         
-        $projectRowset = $newsletterCms->getProject($param);
+        $topicRowset = $newsletterCms->getTopic($param);
         
-        if (count($projectRowset) == 0)
+        if (count($topicRowset) == 0)
         {
             $scheme = $this->getRequest()->getScheme();
             
@@ -189,14 +230,14 @@ class Default_Newsletter_ProjectController extends Default_Newsletter_Abstract
             
             $urlOptions = array();
             
-            $url = $this->_view->url($urlOptions, 'newsletter-project-list', true, true);
+            $url = $this->_view->url($urlOptions, 'newsletter-topic-list', true, true);
             
             header('Location: ' . $url = $scheme . '://' . $host . $url);
             
             die();
         }
         
-        $this->_view->assign('project', $projectRowset[0]);
+        $this->_view->assign('topic', $topicRowset[0]);
         
         return $this->_view->render(__METHOD__);
     }

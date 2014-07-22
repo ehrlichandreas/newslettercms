@@ -1,24 +1,25 @@
-<div class="default newsletter project list">
-    <p>Projekte</p>
+<div class="default newsletter topic list">
+    <p>Themen des Projekts</p>
     <ul>
 <?php 
-foreach ($this->projectRowset as $project)
+foreach ($this->topicRowset as $topic)
 {
     $urlOptions = array
     (
-        'project_id'    => $project['project_id'],
+        'project_id'    => $this->invokeParams['project_id'],
+        'topic_id'      => $topic['topic_id'],
     );
     
-    $url = $this->url($urlOptions, 'newsletter-project-view', true, true);
+    $url = $this->url($urlOptions, 'newsletter-topic-view', true, true);
 ?>
-        <li><a href="<?php echo $url;?>"><?php echo $this->escape($project['title']);?></a></li>
+        <li><a href="<?php echo $url;?>"><?php echo $this->escape($topic['title']);?></a></li>
 <?php 
 }
 ?>
     </ul>
     <div class="clr"></div>
-    <p>neues Projekt anlegen</p>
-    <form method="post" action="<?php echo $this->url(array(), 'newsletter-project-add', true, true);?>" enctype="multipart/form-data">
+    <p>neues Thema anlegen</p>
+    <form method="post" action="<?php echo $this->url($this->invokeParams, 'newsletter-topic-add', true, true);?>" enctype="multipart/form-data">
         <p>
             <label for="name">Name:</label>
             <br />
