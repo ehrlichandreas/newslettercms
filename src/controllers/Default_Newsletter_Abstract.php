@@ -19,9 +19,16 @@ class Default_Newsletter_Abstract extends EhrlichAndreas_Mvc_Controller
      */
     public function getRequestInvokeParams()
     {
-        #$invokeParams = EhrlichAndreas_Mvc_FrontController::getInstance()->getRouter()->getParams();
+        $request = EhrlichAndreas_Mvc_FrontController::getInstance()->getRequest();
         
-        $invokeParams = $this->getRequest()->getParams();
+        if (is_null($request))
+        {
+            $invokeParams = $this->getRequest()->getParams();
+        }
+        else
+        {
+            $invokeParams = $request->getParams();
+        }
         
         unset($invokeParams['bootstrap']);
         
